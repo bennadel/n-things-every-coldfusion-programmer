@@ -69,6 +69,10 @@ Elevator pitch: Mappings can be used in `cfinclude`, `cfmodule`, `expandPath`, `
 
 Elevator pitch: Most things in ColdFusion start at `1`, not `0`. This makes the code much easier to write and read.
 
+## Data type conversions
+
+Elevator pitch: Strings to numbers, binary to text, base64, base64url, JSON, etc.
+
 
 [97-things]: https://github.com/97-things
 

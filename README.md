@@ -73,6 +73,10 @@ Elevator pitch: Most things in ColdFusion start at `1`, not `0`. This makes the 
 
 Elevator pitch: Strings to numbers, binary to text, base64, base64url, JSON, etc.
 
+## Using `CFParam` to param complex objects
+
+Elevator pitch: While `cfparam` is often used to validate and default simple types, it can also be used to validate and default complex objects.
+
 
 [97-things]: https://github.com/97-things
 

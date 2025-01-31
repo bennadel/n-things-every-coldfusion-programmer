@@ -77,6 +77,14 @@ Elevator pitch: Strings to numbers, binary to text, base64, base64url, JSON, etc
 
 Elevator pitch: While `cfparam` is often used to validate and default simple types, it can also be used to validate and default complex objects.
 
+## ColdFusion supports mixins
+
+Elevator pitch: You can use the `cfinclude` tag to pull functions into any context and treat them like mixins. This works in both CFML and CFC files.
+
+## `CFDump` tag attributes
+
+Elevator pitch: The `cfdump` tag (and `writeDump()` function) is one of the most powerful features of ColdFusion debugging. Using the attributes can make it even more effective. Also, you can use this tag to write to the standard-out stream (`output="console"`).
+
 
 [97-things]: https://github.com/97-things
 

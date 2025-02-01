@@ -3,7 +3,15 @@
 
 I've always enjoyed the ["97 Things Every ... Should Know"][97-things] style books. I thought it might be fun to have one that relates to ColdFusion / CFML. I especially like that those books often have many authors and voices, which makes it easier to compile.
 
-Some random ideas that might be meaningful - these are just _working chapter titles_ to be fine-tuned and organized.
+This is not intended to compete with more educational resources, such as:
+
+* Adobe: [Developing ColdFusion Applications](https://helpx.adobe.com/coldfusion/developing-applications/user-guide.html)
+* Ortus Solutions: [Modern ColdFusion in 100 Minutes](https://www.ortussolutions.com/learn/books/coldfusion-in-100-minutes)
+* Community: [Learn CF in a Week](https://www.learncfinaweek.com/)
+
+This N+1 book isn't so much about _learning_ ColdFusion as it is about _leveraging_ ColdFusion in interesting and / or non-obvious ways.
+
+The following are some random ideas that might be meaningful - these are just _working chapter titles_ to be fine-tuned and organized.
 
 ## ColdFusion is built on top of Java
 

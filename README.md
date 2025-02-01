@@ -85,6 +85,22 @@ Elevator pitch: You can use the `cfinclude` tag to pull functions into any conte
 
 Elevator pitch: The `cfdump` tag (and `writeDump()` function) is one of the most powerful features of ColdFusion debugging. Using the attributes can make it even more effective. Also, you can use this tag to write to the standard-out stream (`output="console"`).
 
+## Manually managing session cookies
+
+Elevator pitch: It's really easy to just set `this.sessionManagement` to `true` and start putting values in the `session` scope. But, this can become problematic for large sites and sites that span multiple servers. Manually managing session cookies opens-up a lot of new possibilities.
+
+## Downstream effects of mutating the `cookie` scope
+
+Elevator pitch: The `cfcookie` tag allows you to set cookie values. But, you can also set values directly on the `cookie` scope. And, doing so will quietly send `Set-Cookie` headers back to the browser.
+
+## Function and variable hoisting
+
+Elevator pitch: `var` and `function` declarations are hoisted, which allows you to make your code read better from top-to-bottom. It also means you can weave `var` declarations into `if`/`else` blocks without having to declare some nonsense variable at the top.
+
+## `cfloop` tag will create `variables`-scoped variables by default
+
+Elevator pitch: Unless you explicitly scope the `index` / `item` / `key` iteration variables in your `cfloop` tag, ColdFusion will define them on the `variable` scope. If done in the context of a persisted ColdFusion component, this can create a subtle memory leak.
+
 
 [97-things]: https://github.com/97-things
 

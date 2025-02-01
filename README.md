@@ -99,7 +99,15 @@ Elevator pitch: `var` and `function` declarations are hoisted, which allows you 
 
 ## `cfloop` tag will create `variables`-scoped variables by default
 
-Elevator pitch: Unless you explicitly scope the `index` / `item` / `key` iteration variables in your `cfloop` tag, ColdFusion will define them on the `variable` scope. If done in the context of a persisted ColdFusion component, this can create a subtle memory leak.
+Elevator pitch: Unless you explicitly scope the `index` / `item` / `key` iteration variables in your `cfloop` tag, ColdFusion will define them on the `variable` scope. If done in the context of a persisted ColdFusion component, this can create a subtle memory leak. This is especially problematic in some ColdFusion frameworks.
+
+## Using `getAsBinary` in `CFHttp` for better consistency
+
+Elevator pitch: Sometimes the `cfhttp` tag returns data as string; sometimes it returns it as a binary object. Who knows why. Best to use the `getAsBinary` attribute to always return binary. Which, of course, doesn't actually do that (in edge cases for Connection Failure).
+
+## `cfdump` output options
+
+The `cfdump` and `writeDump()` features are one of the most powerful parts of ColdFusion. They have loads of options that grant you fine control over the output; including writing output to the standard-out stream.
 
 
 [97-things]: https://github.com/97-things

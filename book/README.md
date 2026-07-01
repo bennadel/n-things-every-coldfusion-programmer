@@ -5,7 +5,7 @@ The parsing, rendering, and styling of the book content is still very much a **w
 
 ## How to Write a Chapter
 
-This book is intended to be a community project that's authored in Markdown and showcases the majesty of ColdFusion. I've done my best to make it as easy as possible to contribute. If you'd like to author a chapter you can:
+This book is intended to be a community project that's authored in [Markdown][markdown] and showcases the majesty of [ColdFusion][coldfusion]. I've done my best to make it as easy as possible to contribute. If you'd like to author a chapter you can:
 
 1. Prepare your author biography.
 
@@ -32,6 +32,15 @@ _That said_, the `chapter-template` comes with a **Docker Compose** file that de
 
 * **`http://localhost:8080/`** - a ColdFusion application context that you can use to write and verify the CFML code that you want to reference in your chapter. The source code for this application is in `{chapter}/code/app`. You can modify the contents of the `app` folder in any way that helps you write your chapter.
 
-To spin-up the Docker containers, you need to `cd` into your chapter folder and run `docker compose up`. The first time Docker builds the images, it may take 1-2 minutes because the CFML engine is being baked-into the CommandBox base image. After that, spinning up the containers should be fast.
+To spin-up the Docker containers, you need to `cd` into your chapter folder and run `docker compose up`. The first time Docker builds the images, it may take 1-2 minutes because the CFML engine is being baked-into the [CommandBox][commandbox] [base image][commandbox-image]. After that, spinning up the containers should be fast.
 
 These Docker containers and the ColdFusion application are a development-time / author-time experience only. The content of your `chapter.md` is published though a separate ColdFusion application.
+
+
+[coldfusion]: https://www.adobe.com/products/coldfusion-family.html
+
+[commandbox]: https://www.ortussolutions.com/products/commandbox
+
+[commandbox-image]: https://hub.docker.com/r/ortussolutions/commandbox/
+
+[markdown]: https://www.markdownguide.org/

@@ -1,0 +1,34 @@
+name: "cfbook-chapter"
+
+services:
+
+  # http://localhost:8080 - provides a runtime for your code samples.
+  code:
+    build:
+      context: "./code/docker/"
+      dockerfile: "Dockerfile"
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./code/app:/app"
+    healthcheck:
+      test: "echo hello"
+
+  # http://localhost - provides a preview of your chapter content.
+  preview:
+    build:
+      context: "../../chapter-preview/docker/"
+      dockerfile: "Dockerfile"
+    ports:
+      - "80:8080"
+      - "443:8443"
+    volumes:
+      # So we know which chapter is being previewed.
+      - "./metadata.json:/metadata.json"
+      # So we have access to all chapter and author data.
+      - "../../authors:/authors"
+      - "../../chapters:/chapters"
+      # So we have access to the preview application.
+      - "../../chapter-preview/app:/app"
+    healthcheck:
+      test: "echo hello"

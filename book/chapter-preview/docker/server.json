@@ -1,0 +1,26 @@
+{
+	"name": "cfbook-preview",
+	"app": {
+		"cfengine": "adobe@2025.0.9"
+	},
+	"profile": "development",
+	"web": {
+		"host": "127.0.0.1",
+		"bindings": {
+			"HTTP": {
+				"enable": true,
+				"listen": 8080
+			},
+			"SSL": {
+				"enable": true,
+				"listen": 8443
+			}
+		},
+		"blockCFAdmin": false,
+		"blockSensitivePaths": true,
+		"blockFlashRemoting": true
+	},
+	"scripts": {
+		"onServerInitialInstall": "cfpm install debugger"
+	}
+}

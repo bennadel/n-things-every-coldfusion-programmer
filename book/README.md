@@ -9,16 +9,16 @@ This book is intended to be a community project that's authored in Markdown and 
 
 1. Prepare your author biography.
 
-  1. Copy the `author-template` folder into `authors`.
-  2. Rename your folder using kebab case, ex `john-smith`.
-  3. Update the `bio.md` content.
+   1. Copy the `author-template` folder into `authors`.
+   2. Rename your folder using kebab case, ex `john-smith`.
+   3. Update the `bio.md` content.
 
 2. Prepare your chapter content.
 
-  1. Copy the `chapter-template` folder into `chapters`.
-  2. Rename your folder using kebab case, ex `session-management`.
-  3. Update the `metadata.json` file (inside your chapter folder) to identify the kebab-case slugs you used for both your author bio and chapter.
-  4. Update the `chapter.md` content.
+   1. Copy the `chapter-template` folder into `chapters`.
+   2. Rename your folder using kebab case, ex `session-management`.
+   3. Update the `metadata.json` file (inside your chapter folder) to identify the kebab-case slugs you used for both your author bio and chapter.
+   4. Update the `chapter.md` content.
 
 ## Markdown Only Lifestyle
 

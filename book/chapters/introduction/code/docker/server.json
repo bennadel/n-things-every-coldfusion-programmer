@@ -1,7 +1,7 @@
 {
 	"name": "cfbook-chapter",
 	"app": {
-		"cfengine": "adobe@2025.0.9"
+		"cfengine": "adobe@2025.0.10"
 	},
 	"profile": "development",
 	"web": {

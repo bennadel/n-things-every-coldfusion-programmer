@@ -51,7 +51,7 @@ _That said_, the `chapter-template` comes with a **Docker Compose** file that de
 
 To spin-up the Docker containers, you need to `cd` into your chapter folder and run `docker compose up`. The first time Docker builds the images, it may take 1-2 minutes because the CFML engine is being baked-into the [CommandBox][commandbox] [base image][commandbox-image]. After that, spinning up the containers should be fast.
 
-These Docker containers and the ColdFusion application are a development-time / author-time experience only. The content of your `chapter.md` is published though a separate ColdFusion application.
+These Docker containers and the ColdFusion application are a development-time / author-time experience only. The content of your `chapter.md` is published through a separate ColdFusion application.
 
 
 [coldfusion]: https://www.adobe.com/products/coldfusion-family.html

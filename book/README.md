@@ -45,9 +45,9 @@ If you only want to modify the `chapter.md` file, there's nothing more you need 
 
 _That said_, the `chapter-template` comes with a **Docker Compose** file that defines two services:
 
-* **`http://localhost/`** - a Markdown-to-HTML preview of your chapter content, including rendered images.
+* [**`http://localhost/`**](http://localhost/) - a Markdown-to-HTML preview of your chapter content, including rendered images.
 
-* **`http://localhost:8080/`** - a ColdFusion application context that you can use to write and verify the CFML code that you want to reference in your chapter. The source code for this application is in `{chapter}/code/app`. You can modify the contents of the `app` folder in any way that helps you write your chapter.
+* [**`http://localhost:8080/`**](http://localhost:8080/) - a ColdFusion application context that you can use to write and verify the CFML code that you want to reference in your chapter. The source code for this application is in `{chapter}/code/app`. You can modify the contents of the `app` folder in any way that helps you write your chapter.
 
 To spin-up the Docker containers, you need to `cd` into your chapter folder and run `docker compose up`. The first time Docker builds the images, it may take 1-2 minutes because the CFML engine is being baked-into the [CommandBox][commandbox] [base image][commandbox-image]. After that, spinning up the containers should be fast.
 

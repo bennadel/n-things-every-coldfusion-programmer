@@ -13,10 +13,12 @@ component {
 	*/
 	public void function initAfterInjection() {
 
-		var AutolinkExtensionClass = classLoader.create( "com.vladsch.flexmark.ext.autolink.AutolinkExtension" );
-		var StrikethroughExtensionClass = classLoader.create( "com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension" );
 		var HtmlRendererClass = classLoader.create( "com.vladsch.flexmark.html.HtmlRenderer" );
 		var ParserClass = classLoader.create( "com.vladsch.flexmark.parser.Parser" );
+		// Extension classes to include in parser.
+		var AttributeExtensionClass = classLoader.create( "com.vladsch.flexmark.ext.attributes.AttributesExtension" );
+		var AutolinkExtensionClass = classLoader.create( "com.vladsch.flexmark.ext.autolink.AutolinkExtension" );
+		var StrikethroughExtensionClass = classLoader.create( "com.vladsch.flexmark.ext.gfm.strikethrough.StrikethroughExtension" );
 
 		// The options are used to configure both the parser and the renderer.
 		var options = classLoader.create( "com.vladsch.flexmark.util.data.MutableDataSet" )
@@ -25,11 +27,22 @@ component {
 		options.set(
 			ParserClass.EXTENSIONS,
 			[
+				AttributeExtensionClass.create(),
 				AutolinkExtensionClass.create(),
-				StrikethroughExtensionClass.create()
+				StrikethroughExtensionClass.create(),
 			]
 		);
 
+		// Allow attributes to be applied to fenced code blocks.
+		options.set(
+			AttributeExtensionClass.FENCED_CODE_INFO_ATTRIBUTES,
+			true
+		);
+		// Don't allow attributes to be applied to naked text nodes.
+		options.set(
+			AttributeExtensionClass.ASSIGN_TEXT_ATTRIBUTES,
+			false
+		);
 		// Ignore "mailto:" auto-linking.
 		options.set(
 			AutolinkExtensionClass.IGNORE_LINKS,

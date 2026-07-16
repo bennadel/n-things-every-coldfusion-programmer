@@ -1,7 +1,7 @@
 {
 	"name": "cfbook-preview",
 	"app": {
-		"cfengine": "adobe@2025.0.10"
+		"cfengine": "adobe@2025.0.11"
 	},
 	"profile": "development",
 	"web": {

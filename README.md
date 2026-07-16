@@ -47,13 +47,13 @@ To author a chapter &mdash; or chapters &mdash; you must:
 
 1. Prepare your author biography (within the `book` directory).
 
-   1. Copy the `author-template` folder into `authors`.
+   1. Copy the `templates/author` folder into `authors`.
    2. Rename your folder using kebab case, ex `john-smith`.
    3. Update the `bio.md` content.
 
 2. Prepare your chapter content (within the `book` directory).
 
-   1. Copy the `chapter-template` folder into `chapters`.
+   1. Copy the `templates/chapter` folder into `chapters`.
    2. Rename your folder using kebab case, ex `session-management`.
    3. Update the `metadata.json` file (inside your chapter folder) to identify the kebab-case directory names you used for both your author bio and chapter.
    4. Update the `chapter.md` content with your insights, wisdom, and passion.
@@ -66,7 +66,7 @@ If you only want to modify the `chapter.md` file, there's nothing more you need 
 
 ### Markdown + Docker Lifestyle
 
-_That said_, the `chapter-template` comes with a **Docker Compose** file that defines two services:
+_That said_, the `templates/chapter` folder comes with a **Docker Compose** file that defines two services:
 
 * [**`http://localhost/`**](http://localhost/) - a Markdown-to-HTML preview of your chapter content, including rendered images and syntax-highlighted code blocks.
 

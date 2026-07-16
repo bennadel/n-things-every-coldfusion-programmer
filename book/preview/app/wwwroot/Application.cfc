@@ -89,7 +89,7 @@ component {
 
 		var error = ( exception.rootCause ?: exception.cause ?: exception );
 
-		// This is not a production app - outputting error is safe.
+		// This is not a production app - outputting the error is safe.
 		dump( exception );
 		abort;
 

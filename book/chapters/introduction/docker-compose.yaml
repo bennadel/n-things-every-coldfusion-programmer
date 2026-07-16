@@ -17,7 +17,7 @@ services:
   # http://localhost - provides a preview of your chapter content.
   preview:
     build:
-      context: "../../chapter-preview/docker/"
+      context: "../../preview/docker/"
       dockerfile: "Dockerfile"
     ports:
       - "80:8080"
@@ -29,6 +29,6 @@ services:
       - "../../authors:/authors"
       - "../../chapters:/chapters"
       # So we have access to the preview application.
-      - "../../chapter-preview/app:/app"
+      - "../../preview/app:/app"
     healthcheck:
       test: "echo hello"

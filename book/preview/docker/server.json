@@ -19,8 +19,5 @@
 		"blockCFAdmin": false,
 		"blockSensitivePaths": true,
 		"blockFlashRemoting": true
-	},
-	"scripts": {
-		"onServerInitialInstall": "cfpm install debugger"
 	}
 }

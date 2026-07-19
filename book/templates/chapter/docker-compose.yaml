@@ -12,7 +12,7 @@ services:
     volumes:
       - "./code/app:/app"
     healthcheck:
-      test: [ "CMD", "curl", "-fsS", "http://localhost:8080/" ]
+      test: [ "CMD", "curl", "-fsS", "http://localhost:8080/CFIDE/administrator/index.cfm" ]
       interval: "3s"
       timeout: "3s"
       retries: 10
@@ -35,7 +35,7 @@ services:
       # So we have access to the preview application.
       - "../../preview/app:/app"
     healthcheck:
-      test: [ "CMD", "curl", "-fsS", "http://localhost:8080/" ]
+      test: [ "CMD", "curl", "-fsS", "http://localhost:8080/CFIDE/administrator/index.cfm" ]
       interval: "3s"
       timeout: "3s"
       retries: 10

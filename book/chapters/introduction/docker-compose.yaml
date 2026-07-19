@@ -12,7 +12,7 @@ services:
     volumes:
       - "./code/app:/app"
     healthcheck:
-      test: [ "CMD", "curl", "-fsS", "http://localhost:8080/" ]
+      test: [ "CMD", "curl", "-fsS", "http://localhost:8080/CFIDE/administrator/index.cfm" ]
       interval: "3s"
       timeout: "3s"
       retries: 10
@@ -34,8 +34,11 @@ services:
       - "../../chapters:/chapters"
       # So we have access to the preview application.
       - "../../preview/app:/app"
+    # Probe the ColdFusion Admin page instead of "/" so the health check doesn't execute
+    # application code on every request (on preview, "/" triggers a full chapter render).
+    # Requires `blockCFAdmin: false` in server.json — locking down admin breaks this probe.
     healthcheck:
-      test: [ "CMD", "curl", "-fsS", "http://localhost:8080/" ]
+      test: [ "CMD", "curl", "-fsS", "http://localhost:8080/CFIDE/administrator/index.cfm" ]
       interval: "3s"
       timeout: "3s"
       retries: 10

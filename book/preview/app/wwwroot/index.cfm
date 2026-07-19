@@ -29,8 +29,13 @@
 
 		addByline( chapterDom );
 		transformCodeBlocks( chapterDom );
-		transformBlockquotes( chapterDom );
 		transformImages( chapterDom );
+
+		// Both callouts and blockquotes are authored as `<blockquote>` elements. As such,
+		// we must transform the callouts first so that they don't get processed a second
+		// time as blockquotes.
+		transformCallouts( chapterDom );
+		transformBlockquotes( chapterDom );
 
 		return {
 			chapterTitle: chapterDom.selectFirst( ".chapter h1" ).text().trim(),
@@ -283,40 +288,104 @@
 
 
 	/**
-	* I transform tagged blockquotes into their intended semantic elements. Callouts are
-	* re-tagged as aside elements.
+	* I transform tagged blockquotes into their intended semantic elements.
 	*/
 	private any function transformBlockquotes( required any chapterDom ) {
 
-		// Index of valid variant tokens, doubles as map of translated CSS class names.
-		var calloutVariants = [
-			"info": "callout isInfo",
-			"warning": "callout isWarning",
-			"danger": "callout isDanger",
-		];
+		for ( var node in chapterDom.select( "blockquote" ) ) {
 
-		for ( var node in chapterDom.select( "blockquote > [variant]:first-child" ) ) {
+			node.addClass( "quote" );
 
-			var blockquote = node.parent();
-			var variant = node.attr( "variant" );
+			var lastNode = node.selectFirst( "> p:last-child" );
 
-			node.removeAttr( "variant" );
+			if ( isNull( lastNode ) ) {
 
-			if ( variant == "quote" ) {
-
-				blockquote.addClass( "isQuote" );
 				continue;
 
 			}
 
-			if ( calloutVariants.keyExists( variant ) ) {
+			var firstChild = lastNode.firstChild();
 
-				blockquote
-					.tagName( "aside" )
-					.addClass( calloutVariants[ variant ] )
-				;
+			if ( isNull( firstChild ) ) {
+
+				continue;
 
 			}
+
+			if ( firstChild.nodeName() != "##text" ) {
+
+				continue;
+
+			}
+
+			var text = firstChild.getWholeText().ltrim();
+
+			if ( text.left( 2 ) != "--" ) {
+
+				continue;
+
+			}
+
+			firstChild.text( text.replace( "--", chr( 8212 ) ) );
+
+			node.addClass( "isAttributed" );
+			lastNode.addClass( "quote_author" );
+
+		}
+
+	}
+
+
+	/**
+	* I transform callouts / admonition-based blockquotes into their intended semantic
+	* elements (they get re-tagged as aside elements).
+	*/
+	private any function transformCallouts( required any chapterDom ) {
+
+		// Index of valid variant tokens, doubles as map of translated CSS class names.
+		var calloutVariants = [
+			"note": "callout isNote",
+			"tip": "callout isTip",
+			"important": "callout isImportant",
+			"warning": "callout isWarning",
+			"caution": "callout isCaution",
+		];
+
+		var tokensPattern = calloutVariants
+			.keyArray()
+			.toList( "|" )
+		;
+		var pattern = "^\[!(#tokensPattern#)\]";
+
+		for ( var node in chapterDom.select( "blockquote > p:first-child" ) ) {
+
+			var firstChild = node.firstChild();
+
+			if ( firstChild.nodeName() != "##text" ) {
+
+				continue;
+
+			}
+
+			var text = firstChild.getWholeText().ltrim();
+			var matches = text.reMatchNoCase( pattern );
+
+			if ( ! matches.len() ) {
+
+				continue;
+
+			}
+
+			var marker = matches.first();
+			var variant = marker.listFirst( "[!]" );
+			var blockquote = node.parent();
+
+			blockquote
+				.tagName( "aside" )
+				.addClass( calloutVariants[ variant ] )
+			;
+
+			firstChild.text( text.right( -marker.len() ) );
 
 		}
 

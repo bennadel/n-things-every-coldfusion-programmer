@@ -48,11 +48,6 @@ component {
 			AutolinkExtensionClass.IGNORE_LINKS,
 			"[^@:]+@[^@]+"
 		);
-		// Turn soft-breaks into hard-breaks (ie. line-returns into BR tags).
-		options.set(
-			HtmlRendererClass.SOFT_BREAK,
-			"<br />#chr( 10 )#"
-		);
 
 		variables.parser = ParserClass
 			.builder( options )

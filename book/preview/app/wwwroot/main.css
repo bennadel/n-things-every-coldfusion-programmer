@@ -71,25 +71,50 @@ a {
 	color: #0000cc ;
 }
 
-blockquote {
+.quote {
 	border-left: 4px solid #cccccc ;
 	margin-block: 1.5rem ;
 	margin-inline: 0 ;
 	padding-left: 20px ;
 }
 
-blockquote.isQuote {
-	& p:last-child:not(:first-child) {
+.quote.isAttributed {
+	& .quote_author {
 		margin-left: 2rem ;
 	}
 }
 
 /* Callouts: <aside> admonitions tagged with {variant="info|warning|danger"}. */
 .callout {
-	/* Default variant: info. Overridden per-type below. */
-	--callout-accent: #3b5bdb ;
-	--callout-tint: #eef1fd ;
-	--callout-label: "Info" ;
+	&.isNote {
+		--callout-accent: #3b5bdb ;
+		--callout-tint: #eef1fd ;
+		--callout-label: "Note" ;
+	}
+
+	&.isTip {
+		--callout-accent: #1d7800 ;
+		--callout-tint: #edf5ea ;
+		--callout-label: "Tip" ;
+	}
+
+	&.isImportant {
+		--callout-accent: #9601dc ;
+		--callout-tint: #f9ecff ;
+		--callout-label: "Important" ;
+	}
+
+	&.isWarning {
+		--callout-accent: #b26a00 ;
+		--callout-tint: #fbf3e2 ;
+		--callout-label: "Warning" ;
+	}
+
+	&.isCaution {
+		--callout-accent: #c0392b ;
+		--callout-tint: #fdecea ;
+		--callout-label: "Caution" ;
+	}
 
 	background-color: var( --callout-tint ) ;
 	border-left: 5px solid var( --callout-accent ) ;
@@ -110,23 +135,11 @@ blockquote.isQuote {
 		text-transform: uppercase ;
 	}
 
-	& p:first-of-type {
+	& *:first-of-type {
 		margin-top: 0 ;
 	}
-	& p:last-child {
+	& *:last-child {
 		margin-bottom: 0 ;
-	}
-
-	&.isWarning {
-		--callout-accent: #b26a00 ;
-		--callout-tint: #fbf3e2 ;
-		--callout-label: "Warning" ;
-	}
-
-	&.isDanger {
-		--callout-accent: #c0392b ;
-		--callout-tint: #fdecea ;
-		--callout-label: "Danger" ;
 	}
 }
 

@@ -144,36 +144,41 @@ A plain quote:
 
 > ColdFusion is the easiest way to build modern web applications.
 
-For an attributed quote, where the last line is the author, use the `{variant="quote"}` attribute:
+For an attributed quote, where the last line is the author, prefix the author name with a double-dash (`--`):
 
-> {variant="quote"} The best code is the code you never had to write.
+> The best code is the code you never had to write.
 > 
-> — Some Wise Developer
+> -- Some Wise Developer
 
 
 ## Callouts
 
-Callouts are editorial notes that render as `<aside>` elements.
+Callouts are editorial notes that render as `<aside>` elements. We support the same callouts that are defined in the GitHub flavor of Markdown.
 
-For an info note, use the `{variant="info"}` attribute:
+For an informational note, use the `[!NOTE]` marker:
 
-> {variant="info"}
-> **ColdFusion** is case-insensitive for struct keys, but the _original_ casing
-> is preserved for serialization.
+> [!NOTE]
+> Useful information that users should know, even when skimming content.
 
-For a warning note, use the `{variant="warning"}` attribute:
+For a helpful note, use the `[!TIP]` marker:
 
-> {variant="warning"}
-> `arrayAppend()` mutates the array in place. It does **not** return a new
-> array, so `newArray = arrayAppend( oldArray, x )` is almost never what you
-> want.
+> [!TIP]
+> Helpful advice for doing things better or more easily.
 
-For a danger note, use the `{variant="danger"}` attribute:
+For an important note, use the `[!IMPORTANT]` marker:
 
-> {variant="danger"}
-> Running this migration in production will drop the table.
->
-> Seriously. Don't.
+> [!IMPORTANT]
+> Key information users need to know to achieve their goal.
+
+For a warning note, use the `[!WARNING]` marker:
+
+> [!WARNING]
+> Urgent info that needs immediate user attention to avoid problems.
+
+For a cautionary note, use the `[!CAUTION]` marker:
+
+> [!CAUTION]
+> Advises about risks or negative outcomes of certain actions.
 
 
 ## Section Breaks

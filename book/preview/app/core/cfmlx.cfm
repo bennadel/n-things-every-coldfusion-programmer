@@ -814,6 +814,27 @@
 
 
 	/**
+	* I capitalize the first letter. If "all", I capitalize the first letter of each word.
+	* A word is classified as any alpha characters that come after whitespace, dot, dash,
+	* or parenthesis.
+	*/
+	private string function ucFirst(
+		required string input,
+		boolean doAll = false
+		) {
+
+		if ( doAll ) {
+
+			return input.reReplace( "(^|\s|\.|\(|\[|-)(\w)", "\1\u\2", "all" );
+
+		}
+
+		return input.reReplace( "^(\w)", "\u\1" );
+
+	}
+
+
+	/**
 	* I return the current date/time in UTC.
 	*/
 	private date function utcNow() {

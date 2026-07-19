@@ -1,6 +1,6 @@
 <cfoutput>
 
-	<!DOCTYPE html>
+	<!doctype html>
 	<html lang="en">
 	<head>
 		<meta charset="utf-8">
@@ -13,19 +13,9 @@
 		</style>
 	</head>
 	<body>
-
 		<main>
-			<article>
-				#partial.chapterContent#
-			</article>
-
-			<hr />
-
-			<article>
-				#partial.bioContent#
-			</article>
+			#partial.chapterContent#
 		</main>
-
 	</body>
 	</html>
 

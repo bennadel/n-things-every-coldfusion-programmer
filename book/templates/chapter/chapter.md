@@ -1,8 +1,4 @@
 
 # Your Chapter Title
 
-Your chapter content.
-
-Images can be referenced locally in the `images` directory:
-
-![ColdFusion Logo](images/logo.webp)
+Your chapter prose goes here. Let's make something great together!

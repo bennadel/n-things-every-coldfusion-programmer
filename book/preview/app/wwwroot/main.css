@@ -63,53 +63,167 @@ code {
 	padding: 0 2px ;
 }
 
-pre {
-	& code {
-		background-color: #fefefe ;
-		border: 1px solid #cccccc ;
-		display: block ;
-		margin-right: -200px ;
-		overflow: auto ;
-		padding: 5px 6px ;
-		tab-size: 4 ;
+hr {
+	margin-block: 2rem;
+}
+
+a {
+	color: #0000cc ;
+}
+
+blockquote {
+	border-left: 4px solid #cccccc ;
+	margin-block: 1.5rem ;
+	margin-inline: 0 ;
+	padding-left: 20px ;
+}
+
+blockquote.isQuote {
+	& p:last-child:not(:first-child) {
+		margin-left: 2rem ;
 	}
 }
 
-.codeGrid {
+/* Callouts: <aside> admonitions tagged with {variant="info|warning|danger"}. */
+.callout {
+	/* Default variant: info. Overridden per-type below. */
+	--callout-accent: #3b5bdb ;
+	--callout-tint: #eef1fd ;
+	--callout-label: "Info" ;
+
+	background-color: var( --callout-tint ) ;
+	border-left: 5px solid var( --callout-accent ) ;
+	border-radius: 0 6px 6px 0 ;
+	margin-block: 1.5rem ;
+	margin-inline: 0 ;
+	padding: 15px 20px ;
+
+	&:before {
+		color: var( --callout-accent ) ;
+		content: var( --callout-label ) ;
+		display: block ;
+		font-family: var( --font-code ) ;
+		font-size: 65% ;
+		font-weight: bold ;
+		letter-spacing: 0.08em ;
+		margin-bottom: 8px ;
+		text-transform: uppercase ;
+	}
+
+	& p:first-of-type {
+		margin-top: 0 ;
+	}
+	& p:last-child {
+		margin-bottom: 0 ;
+	}
+
+	&.isWarning {
+		--callout-accent: #b26a00 ;
+		--callout-tint: #fbf3e2 ;
+		--callout-label: "Warning" ;
+	}
+
+	&.isDanger {
+		--callout-accent: #c0392b ;
+		--callout-tint: #fdecea ;
+		--callout-label: "Danger" ;
+	}
+}
+
+/* Figures (images and code samples). */
+figure {
+	margin-block: 2rem ;
+	margin-inline: 0 ;
+}
+
+.imageFigure {
+	align-items: center ;
+	display: flex ;
+	flex-direction: column ;
+}
+.imageFigure_image {
+	max-width: 100% ;
+}
+.imageFigure_caption {
+	color: #666666 ;
+	font-size: 80% ;
+	font-style: italic ;
+	margin-top: 8px ;
+	text-align: center ;
+}
+
+.codeFigure {
+	border: 1px solid #cccccc ;
+	border-radius: 4px ;
+	overflow: hidden ;
+}
+.codeFigure_caption {
+	background-color: #f0f0f0 ;
+	border-bottom: 1px solid #cccccc ;
+	font-size: 80% ;
+	margin: 0 ;
+	padding: 6px 12px ;
+
+	/* Don't render the path as a nested "code chip" inside the bar. */
+	& code {
+		background-color: transparent ;
+		font-size: 100% ;
+		padding: 0 ;
+	}
+}
+.codeFigure_pre {
+	margin: 0 ;
+	overflow-x: auto ;
+	padding: 6px ;
+	tab-size: 4 ;
+}
+.codeFigure_code {
 	--vertical-space: 6px ;
 
+	background-color: transparent ;
+	border-radius: 0 ;
 	display: table ;
 	line-height: 1 ;
-	width: 100% ;
+	min-width: 100% ;
+	padding: 0 ;
 }
-.codeGrid_line {
+.codeFigure_line {
 	display: table-row ;
 }
-.codeGrid_number {
-	/*background-color: #f0f0f0 ;*/
+.codeFigure_number {
+	background-color: #f6f6f6 ;
+	color: #999999 ;
 	display: table-cell ;
-	opacity: 0.5 ;
+	font-size: 90% ;
 	padding-block: var( --vertical-space ) ;
-	padding-inline: 5px 15px ;
+	padding-inline: 7px 10px ;
 	pointer-events: none ;
 	text-align: right ;
 	user-select: none ;
 	width: 1% ;
 }
-.codeGrid_text {
+.codeFigure_source {
 	display: table-cell ;
 	padding-block: var( --vertical-space ) ;
 	padding-inline: 10px ;
 }
-
-.mark {
-	& .codeGrid_text {
+.codeFigure_line.isMark {
+	& .codeFigure_source {
 		background-color: #fffd92 ;
 	}
 }
 
-hr {
-	margin-block: 2rem;
+.designSystem {
+	border: 1px dashed #cccccc ;
+	padding: 20px ;
+
+	& summary {
+		cursor: pointer ;
+
+	}
+	& section *:last-child {
+		margin-bottom: 0 ;
+	}
 }
 
 /* GitHub token classes. */

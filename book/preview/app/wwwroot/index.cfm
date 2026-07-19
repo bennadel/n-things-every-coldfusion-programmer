@@ -25,43 +25,36 @@
 	private struct function getPartial() {
 
 		var metadata = deserializeJson( fileRead( expandPath( "/metadata.json" ), "utf-8" ) );
-		var chapterDom = parseChapter( metadata.chapter );
-		var bioDom = parseBio( metadata.author );
+		var chapterDom = parseChapter( metadata.chapter, metadata.author );
 
-		var chapterH1 = chapterDom.selectFirst( "h1" );
-		var chapterTitle = chapterH1.text().trim();
-
-		var bioH1 = bioDom.selectFirst( "h1" );
-		var bioTitle = bioH1.text().trim();
-
-		chapterH1.after( "<p>Written by #e( bioTitle )#</p>" );
-
-		// Proxy images through the preview app.
-		for ( var node in chapterDom.select( "img" ) ) {
-
-			var srcValue = node.attr( "src" );
-
-			if ( srcValue.reFindNoCase( "^(\./)?images/" ) ) {
-
-				node.attr( "src", "image.cfm?originalSrc=#e4u( srcValue )#" );
-
-			}
-
-		}
-
+		addByline( chapterDom );
 		transformCodeBlocks( chapterDom );
+		transformBlockquotes( chapterDom );
+		transformImages( chapterDom );
 
 		return {
-			chapterTitle: chapterTitle,
+			chapterTitle: chapterDom.selectFirst( ".chapter h1" ).text().trim(),
 			chapterContent: chapterDom.body().html(),
-			bioTitle: bioTitle,
-			bioContent: bioDom.body().html(),
 		};
 
 	}
 
 	// ------------------------------------------------------------------------------- //
 	// ------------------------------------------------------------------------------- //
+
+	/**
+	* I inject the "by" line for the author.
+	*/
+	private void function addByline( required any chapterDom ) {
+
+		var chapterH1 = chapterDom.selectFirst( ".chapter h1" );
+		var bioH1 = chapterDom.selectFirst( ".author h1" );
+		var bioTitle = bioH1.text().trim();
+
+		chapterH1.after( "<p>Written by <a href='##author'>#e( bioTitle )#</a></p>" );
+
+	}
+
 
 	/**
 	* I build the fence that can safely wrap the given code block without conflicting with
@@ -243,11 +236,44 @@
 
 
 	/**
-	* I read and parse the author bio into a jSoup DOM.
+	* I read and parse the chapter, author bio, and design system content into a jSoup
+	* DOM. To do this, we have to hand-assemble the larger document, which is unfortunate
+	* but the easiest approach.
 	*/
-	private any function parseBio( required string authorSlug ) {
+	private any function parseChapter(
+		required string chapterSlug,
+		required string authorSlug
+		) {
 
-		var markdownContent = fileRead( expandPath( "/authors/#authorSlug#/bio.md" ), "utf-8" );
+		var chapterFile = expandPath( "/chapters/#chapterSlug#/chapter.md" );
+		var chapterContent = fileRead( chapterFile, "utf-8" );
+
+		var authorFile = expandPath( "/authors/#authorSlug#/bio.md" );
+		var authorContent = fileRead( authorFile, "utf-8" );
+
+		var designSystemFile = expandPath( "/chapters/#chapterSlug#/design-system.md" );
+		var designSystemContent = fileRead( designSystemFile, "utf-8" );
+
+		var newline = chr( 10 );
+		var gap = ( newline & newline );
+		var lines = [
+			"<article id='chapter' class='chapter'>",
+				chapterContent,
+			"</article>",
+			"---",
+			"<article id='author' class='author'>",
+				authorContent,
+			"</article>",
+			"---",
+			"<details id='designSystem' open class='designSystem'>",
+				"<summary>Design System &mdash; see <code>./design-system.md</code> for syntax</summary>",
+				"<section>",
+					designSystemContent,
+				"</section>",
+			"</details>",
+		];
+
+		var markdownContent = lines.toList( gap );
 		var htmlContent = markdownParser.parse( markdownContent );
 		var htmlDom = jSoupParser.parseHtml( htmlContent );
 
@@ -257,15 +283,42 @@
 
 
 	/**
-	* I read and parse the chapter into a jSoup DOM.
+	* I transform tagged blockquotes into their intended semantic elements. Callouts are
+	* re-tagged as aside elements.
 	*/
-	private any function parseChapter( required string chapterSlug ) {
+	private any function transformBlockquotes( required any chapterDom ) {
 
-		var markdownContent = fileRead( expandPath( "/chapters/#chapterSlug#/chapter.md" ), "utf-8" );
-		var htmlContent = markdownParser.parse( markdownContent );
-		var htmlDom = jSoupParser.parseHtml( htmlContent );
+		// Index of valid variant tokens, doubles as map of translated CSS class names.
+		var calloutVariants = [
+			"info": "callout isInfo",
+			"warning": "callout isWarning",
+			"danger": "callout isDanger",
+		];
 
-		return htmlDom;
+		for ( var node in chapterDom.select( "blockquote > [variant]:first-child" ) ) {
+
+			var blockquote = node.parent();
+			var variant = node.attr( "variant" );
+
+			node.removeAttr( "variant" );
+
+			if ( variant == "quote" ) {
+
+				blockquote.addClass( "isQuote" );
+				continue;
+
+			}
+
+			if ( calloutVariants.keyExists( variant ) ) {
+
+				blockquote
+					.tagName( "aside" )
+					.addClass( calloutVariants[ variant ] )
+				;
+
+			}
+
+		}
 
 	}
 
@@ -279,9 +332,39 @@
 
 		for ( var codeNode in codeNodes ) {
 
-			var preNode = codeNode.parent();
+			var preNode = codeNode
+				.parent()
+				.addClass( "codeFigure_pre" )
+			;
+			var figureNode = preNode
+				.wrap( "<figure></figure>" )
+				.parent()
+				.addClass( "codeFigure" )
+			;
+
+			if ( preNode.attr( "file" ).len() ) {
+
+				var captionNode = figureNode
+					.prependElement( "figcaption" )
+					.addClass( "codeFigure_caption" )
+					.html( "<strong>File:</strong> <code>#e( preNode.attr( "file" ) )#</code>" )
+				;
+
+				preNode.removeAttr( "file" );
+
+			}
+
 			var sourceCode = codeNode.wholeText();
 			var language = getCodeLanguage( codeNode );
+
+			// For "ColdFusion Script" code - a nod to Lucee CFML - we're going to change
+			// the language specification to `cfc`. GitHub appears to highlight this code
+			// properly without the presence of the `component{}` wrapper.
+			if ( language == "cfs" ) {
+
+				language = "cfc";
+
+			}
 
 			// Use the GitHub API to apply the best-in-class syntax highlighting.
 			var githubSourceCode = getGithubSyntaxHighlighting( sourceCode, language );
@@ -310,31 +393,81 @@
 			var highlightIndex = getHighlightIndex( preNode );
 			var sourceLines = sourceCode.reMatch( "[^\r\n]*" );
 
-			codeNode.empty();
-			codeNode.addClass( "codeGrid" );
+			codeNode
+				.addClass( "codeFigure_code" )
+				.empty()
+			;
 
 			for ( var entry in toEntries( sourceLines ) ) {
 
 				var lineNode = codeNode.appendElement( "div" )
 					.attr( "data-line", toString( entry.index ) )
-					.addClass( "codeGrid_line" )
-				;
-
-				var numberNode = lineNode.appendElement( "span" )
-					.text( entry.index )
-					.addClass( "codeGrid_number" )
-				;
-
-				var textNode = lineNode.appendElement( "span" )
-					.html( entry.value )
-					.addClass( "codeGrid_text" )
+					.addClass( "codeFigure_line" )
 				;
 
 				if ( highlightIndex.keyExists( entry.index ) ) {
 
-					lineNode.addClass( "mark" );
+					lineNode.addClass( "isMark" );
 
 				}
+
+				var numberNode = lineNode.appendElement( "span" )
+					.text( entry.index )
+					.addClass( "codeFigure_number" )
+				;
+
+				var textNode = lineNode.appendElement( "span" )
+					.html( entry.value )
+					.addClass( "codeFigure_source" )
+				;
+
+			}
+
+		}
+
+	}
+
+
+	/**
+	* I transform the plain images into figures.
+	*/
+	private void function transformImages( required any chapterDom ) {
+
+		for ( var imageNode in chapterDom.select( "p > img:only-child" ) ) {
+
+			var figureNode = imageNode
+				.parent()
+				.tagName( "figure" )
+				.addClass( "imageFigure" )
+			;
+			var altAttribute = imageNode.attr( "alt" );
+			var captionText = altAttribute.len()
+				? altAttribute
+				: "Please define ALT text for this image."
+			;
+			var captionNode = figureNode
+				.appendElement( "figcaption" )
+				.text( captionText )
+				.addClass( "imageFigure_caption" )
+			;
+
+			imageNode
+				// Now that we've moved it into the figcaption, we have to remove it from
+				// the ALT so that we don't get double-speaking in assistive technology.
+				.attr( "alt", "" )
+				.addClass( "imageFigure_image" )
+			;
+
+		}
+
+		// Proxy images through the preview app.
+		for ( var node in chapterDom.select( "img" ) ) {
+
+			var srcValue = node.attr( "src" );
+
+			if ( srcValue.reFindNoCase( "^(\./)?images/" ) ) {
+
+				node.attr( "src", "image.cfm?originalSrc=#e4u( srcValue )#" );
 
 			}
 
